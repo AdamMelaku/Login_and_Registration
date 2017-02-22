@@ -4,7 +4,7 @@ from datetime import datetime
 
 # Create your views here.
 def index(request):
-    if not request.session["gold"]:
+    if "gold" not in request.session:
         request.session["gold"]=0
     if 'activity_log' not in request.session:
         request.session['activity_log'] = []
