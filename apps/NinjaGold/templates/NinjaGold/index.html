@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ninja Gold Assignment</title>
+  </head>
+  <body>
+    <div class="">
+      <label for="gold">Your Gold: </label>
+      <input type="text" name="gold" value="{{request.session.gold}}">
+    </div>
+    <div class="options">
+      <form class="location" action="/find_gold" method="post">
+        {% csrf_token %}
+        <h3>Farm</h3>
+        <h4>(earns 10-20 golds)</h4>
+        <input type="hidden" name="location" value="farm">
+        <input type="submit" name="submit" value="Find Gold!">
+      </form>
+      <form class="location" action="/find_gold" method="post">
+        {% csrf_token %}
+        <h3>Cave</h3>
+        <h4>(earns 5-10 golds)</h4>
+        <input type="hidden" name="location" value="cave">
+        <input type="submit" name="submit" value="Find Gold!">
+      </form>
+      <form class="location" action="find_gold" method="post">
+        {% csrf_token %}
+        <h3>House</h3>
+        <h4>(earns 2-5 golds)</h4>
+        <input type="hidden" name="location" value="house">
+        <input type="submit" name="submit" value="Find Gold!">
+      </form>
+      <form class="location" action="find_gold" method="post">
+        {% csrf_token %}
+        <h3>Casino</h3>
+        <h4>(earns/takes 0-50 golds)</h4>
+        <input type="hidden" name="location" value="casino">
+        <input type="submit" name="submit" value="Find Gold!">
+      </form>
+    </div>
+    <div class="activities">
+      {%for activity in request.session.activity_log%}
+        <p>{{activity}}</p>
+      {%endfor%}
+
+    </div>
+  </body>
+</html>
