@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Email Validation</title>
+    </head>
+    <body>
+        <div id="wrapper">
+            {% if messages %}
+            <ul class="list-group">
+                {% for message in messages %}
+                <li class="list-group-item list-group-item-success">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <h3>Success welcome {{request.session.user_id}}</h3>
+        </div>
+    </body>
+</html>
