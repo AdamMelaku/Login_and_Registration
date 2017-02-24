@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href="/appointments">Dashboard |</a><a href="/logout">Logout</a>
+    <form action="index.html" method="post">
+      {% csrf_token %}
+      <div class="">
+        <label for="name">Task: </label>
+        <input type="text" name="name" value="">
+        <br>
+      </div>
+      <div class="">
+        <label for="status">Task: </label>
+        <select name="status">
+          <option value="done">Done</option>
+          <option value="pending">Pending</option>
+          <option value="missed">Missed</option>
+        </select>
+        <br>
+      </div>
+        <div class="">
+          <label for="date">Date: </label>
+          <input type="date" name="date" value="">
+          <br>
+        </div>
+        <div class="">
+          <label for="time">Time: </label>
+          <input type="time" name="time" value="">
+          <br>
+        </div>
+        <input type="submit" name="submit" value="Update">
+    </form>
+  </body>
+</html>

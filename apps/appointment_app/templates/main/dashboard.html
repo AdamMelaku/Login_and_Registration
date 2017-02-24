@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="banner">
+      <h1>Hello {{user.name}}</h1>
+      <a href="/logout">Logout</a>
+    </div>
+    <div class="">
+      <h4>Here are your appointments for today, {{date}} </h4>
+      <br>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        <tr>{% if appointments_today%}
+          {% for appointment in appointments_today%}
+          <td>{{appointment.task}}</td>
+          <td>{{appointment.time}}</td>
+          <td>{{appointment.status}}</td>
+          <td><a href="/appointment/{{user.id}}"> Edit</a>    <a href="/delete_appointment">Delete</a></td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        <tr>
+      </table>
+    </div>
+    <div class="">
+      <h4>Your Other appointments:</h4>
+      <br>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+        {% if upcoming_appointments%}
+          {%for upcoming_appointment in upcoming_appointments%}
+            <td>{{upcoming_appointment.task}}</td>
+            <td>{{upcoming_appointment.date}}</td>
+            <td>{{upcoming_appointment.time}}</td>
+          {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+        <form id = "add_appoitnment_form" action="/add_appointment" method="post">
+          <h4>Add appointments</h4>
+          <label for="date">Date: </label>
+          <input type="date" name="date" value="">
+          <label for="time">Time: </label>
+          <input type="time" name="time" value="">
+          <label for="task">Task: </label>
+          <input type="text" name="task" value="">
+          <br>
+          <input type="submit" name="submit" value="Add">
+        </form>
+    </div>
+  </body>
+</html>
