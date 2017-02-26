@@ -1,65 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% load static %}
     <meta charset="utf-8">
-    <title></title>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
   </head>
   <body>
-    <div class="banner">
-      <h1>Hello {{user.name}}</h1>
-      <a href="/logout">Logout</a>
-    </div>
-    <div class="">
-      <h4>Here are your appointments for today, {{date}} </h4>
-      <br>
-      <table>
-        <tr>
-          <th>Task</th>
-          <th>Time</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-        <tr>{% if appointments_today%}
-          {% for appointment in appointments_today%}
-          <td>{{appointment.task}}</td>
-          <td>{{appointment.time}}</td>
-          <td>{{appointment.status}}</td>
-          <td><a href="/appointment/{{user.id}}"> Edit</a>    <a href="/delete_appointment">Delete</a></td>
-        </tr>
-        {% endfor %}
-        {% endif %}
-        <tr>
-      </table>
-    </div>
-    <div class="">
-      <h4>Your Other appointments:</h4>
-      <br>
-      <table>
-        <tr>
-          <th>Task</th>
-          <th>Date</th>
-          <th>Time</th>
-        </tr>
-        {% if upcoming_appointments%}
-          {%for upcoming_appointment in upcoming_appointments%}
-            <td>{{upcoming_appointment.task}}</td>
-            <td>{{upcoming_appointment.date}}</td>
-            <td>{{upcoming_appointment.time}}</td>
-          {% endfor %}
-        {% endif %}
-      </table>
-    </div>
-        <form id = "add_appoitnment_form" action="/add_appointment" method="post">
-          <h4>Add appointments</h4>
-          <label for="date">Date: </label>
-          <input type="date" name="date" value="">
-          <label for="time">Time: </label>
-          <input type="time" name="time" value="">
-          <label for="task">Task: </label>
-          <input type="text" name="task" value="">
-          <br>
-          <input type="submit" name="submit" value="Add">
-        </form>
-    </div>
+    <h3>Welcome {{user.name}}</h3>
+    <p>Your date of birth is {{user.date_of_birth}}</p>
+    <a href="/logout">Logout</a>
+    <h4>Appointment Information Below</h4>
+    <table>
+      <tr>
+        <th>Task</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Action</th>
+      </tr>
+      {% if appointments %}
+      {% for appointment in appointments %}
+      <tr>
+        <td>{{appointment.task}}</td>
+        <td>{{appointment.date}}</td>
+        <td>{{appointment.time}}</td>
+        <td><a href="#">Edit</a><a href="#">Delete</a></td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </table>
+
+    <!-- {% if appointments %}
+    {% for appointment in appointments %}
+    <p>{{appointment.task}} - {{appointment.date}} - {{appointment.time}}</p>
+    {% endfor %}
+    {% endif %} -->
+    <h3>Add an Appointment below</h3>
+    <form action="/create_appointment" method="post">
+      {% csrf_token %}
+      <label for="task"> Task: </label>
+      <input type="text" name="task" value="">
+      <label for="date">Date: </label>
+      <input type="date" name="date" value="">
+      <label for="time">Time: </label>
+      <input type="time" name="time" value="">
+      <input type="submit" name="submit" value="submit">
+    </form>
   </body>
 </html>

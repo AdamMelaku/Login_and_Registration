@@ -12,12 +12,9 @@ class UserManager(models.Manager):
         if not EMAIL_REGEX.match(post.get('email')):
             isValid = False
             print "1"
-        if len(post.get("first_name"))==0:
+        if len(post.get("name"))==0:
             isValid = False
             print "2"
-        if len(post.get("last_name"))==0:
-            isValid = False
-            print "3"
         if len(post.get('email'))==0:
             isValid = False
             print "4"
@@ -36,10 +33,18 @@ class UserManager(models.Manager):
         return (False, 'notuser')
 
 class User(models.Model):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    date_of_birth = models.DateField()
     email = models.EmailField()
     password = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
+
+class Appointment(models.Model):
+    task = models.CharField(max_length=200)
+    date = models.DateField()
+    time = models.TimeField()
+    user = models.ForeignKey(User, related_name="appointments")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)

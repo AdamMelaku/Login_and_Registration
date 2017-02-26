@@ -1,53 +1,51 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from .models import *
-from django.core.urlresolvers import reverse
 import bcrypt
+
 # Create your views here.
 def index(request):
-    return render(request, 'main/index.html')
+    return render(request,'main/index.html')
 
-def success(request):
-    return render(request,'main/success.html')
+def dashboard(request):
+    context = {
+    "user" : User.objects.get(id = request.session["user_id"]),
+    "appointments": Appointment.objects.filter(user__id=request.session["user_id"])
+    }
+    return render(request,'main/dashboard.html', context)
 
-def login_user(request):
-    print "testing code"
-    login = User.objects.login_user(request.POST)
-    if login:
-        request.session["user_id"] = login[1].id
-        return redirect("/success")
+def login(request):
+    if request.method == 'POST':
+        login = User.objects.login_user(request.POST)
+        if login:
+            request.session["user_id"] = login[1].id
+            return redirect ("/dashboard")
+        else:
+            messages.error(request,'Invalid credentials')
     return redirect("/")
 
-def process(request):
+def logout(request):
+    request.session.clear()
+    return redirect("/")
+
+
+def register(request):
     if User.objects.validate_user(request.POST):
         user = User.objects.create(
-        first_name = request.POST.get("first_name"),
-        last_name = request.POST.get("last_name"),
+        name = request.POST.get("name"),
+        date_of_birth = request.POST.get("date_of_birth"),
         email = request.POST.get("email"),
-        password = bcrypt.hashpw(request.POST.get('password').encode(), bcrypt.gensalt()),
+        password = bcrypt.hashpw(request.POST.get('password').encode(), bcrypt.gensalt())
         )
         request.session["user_id"]=user.id
-        return redirect("/success")
+        return redirect("/dashboard")
     return redirect("/")
 
+def create_appointment(request):
 
-
-
-
-
-
-    # if User.UserManager.isValidEmail(request.POST['email']):
-    #     encypted_password = bcrypt.hashpw(reqeust.POST["password"],bcrypt.gensalt())
-    #     User.UserManager.create(first_name=request.POST["first_name"],last_name=request.POST["last_name"],email=request.POST['email'],password=encypted_password)
-    #     messages.success(request, 'The email address you entered ' + request.POST['email']+ ' is a VALID email address! and your encrypted password is '+encypted_password +'Thank you!')
-    #     return redirect (reverse('success'))
-    # else:
-    #     messages.warning(request, 'Invalid email!')
-    #     return redirect (reverse('index'))
-
-# def success(request):
-#     if request.POST["Password"]==
-#     context = {
-#         "User": User.UserManager.all()
-#     }
-#     return render(request, 'main/success.html', context)
+    appointment = Appointment.objects.create(
+    task = request.POST.get("task"),
+    date = request.POST.get("date"),
+    time = request.POST.get("time"),
+    user = User.objects.get(id = request.session["user_id"])
+    )
+    return redirect("/dashboard")

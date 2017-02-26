@@ -1,9 +1,11 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'^process$', views.process, name="process"),
-    url(r'^login_user$', views.login_user, name="login_user"),
-    url(r'^success$', views.success, name="success")
+    url(r'^$', views.index),
+    url(r'^register_user$',views.register),
+    url(r'^login_user$',views.login),
+    url(r'^logout$',views.logout),
+    url(r'^dashboard$',views.dashboard),
+    url(r'^create_appointment$',views.create_appointment),
 ]

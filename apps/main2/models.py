@@ -11,14 +11,22 @@ class UserManager(models.Manager):
         isValid = True
         if not EMAIL_REGEX.match(post.get('email')):
             isValid = False
-        if len(post.get("name"))==0:
+            print "1"
+        if len(post.get("first_name"))==0:
             isValid = False
+            print "2"
+        if len(post.get("last_name"))==0:
+            isValid = False
+            print "3"
         if len(post.get('email'))==0:
             isValid = False
+            print "4"
         if len(post.get("password"))==0:
             isValid = False
+            print "5"
         if post.get('password') != post.get('confirm_password'):
             isValid = False
+            print "6"
         return isValid
 
     def login_user(self,post):
@@ -27,30 +35,11 @@ class UserManager(models.Manager):
             return (True,user)
         return (False, 'notuser')
 
-
-class AppointmentManager(models.Manager):
-    def validate_appointment(self, post):
-        isValid = True
-        if len(post.get("date"))==0:
-            isValid = False
-        if len(post.get('time'))==0:
-            isValid = False
-        if len(post.get("task"))==0:
-            isValid = False
-        return isValid
-
-
 class User(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    date_of_birth = models.DateField(max_length=10)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    password = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
-
-class Appointment(models.Model):
-    task = models.TextField()
-    date = models.DateField(max_length=10)
-    time = models.TimeField()
-    status = models.CharField(max_length=10)
-    user = models.ForeignKey(User, related_name='appointments')
-    objects = AppointmentManager()
